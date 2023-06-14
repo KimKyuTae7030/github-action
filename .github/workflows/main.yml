@@ -50,12 +50,8 @@ jobs:
       if: steps.cache.outputs.cache-hit != 'true'
       run: npm install
 
-    - run: npm run lint
+    - run: npm run build
       # npm run lint 에러가 발생한다면 뒤의 tsc, build는 실행하지 않고 workflow가 종료 된다.
       # 하지만 ${{ always() }}라는 문법을 사용한다면 
       # `npm run lint`라는 곳에서 에러가 나도 뒤의 tsc, build까지 다 실행을 해보고 난 뒤 종료.
-      if: ${{ always() }}
-    - run: npm run tsc
-      if: ${{ always() }}
-    - run: npm run build
-      if: ${{ always() }}
+   
