@@ -19,7 +19,7 @@ jobs:
   # 만들어져 있는 Action을 사용할 수도 있음.
   steps:
     # GitHub Actions는 해당 프로젝트를 리눅수 환경에 Checkout하고 나서 실행
-    # 만들어놓은 Action을 사용할 때는 uses라는 키워드 사용
+    
     - uses: actions/checkout@v2
 
     # 해당환경을 Node.js 위에서 실행하겠다고 명시
