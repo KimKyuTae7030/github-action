@@ -20,7 +20,7 @@ jobs:
   steps:
     # GitHub Actions는 해당 프로젝트를 리눅수 환경에 Checkout하고 나서 실행
     
-    uses: actions/checkout@v3
+    #uses: actions/checkout@v3
 
     # 해당환경을 Node.js 위에서 실행하겠다고 명시
     - name: Use Node.js
