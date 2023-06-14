@@ -1,4 +1,4 @@
-# test-every-push.yml
+# main.yml 
 
 # workflow의 이름
 name: 'test-every-push'
