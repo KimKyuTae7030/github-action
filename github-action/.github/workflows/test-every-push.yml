@@ -1,0 +1,66 @@
+# test-every-push.yml
+
+# workflow의 이름
+name: 'test-every-push'
+
+# workflow 동작하게하는 trigger
+# ex) repository에 push 이벤트가 발생할 때마다 실행
+on: push
+
+# GitHub Actions에서 작업이란 독립된 가상머신 또는 컨테이너에서 돌아가는 하나의 처리 단위
+jobs: 
+  test: 
+  # job의 이름
+  name: Test lint, test, build
+  # job의 환경
+  runs-on: ubuntu-latest
+
+  # step은 shell script를 실행 할 수 있음.
+  # 만들어져 있는 Action을 사용할 수도 있음.
+  steps:
+    # GitHub Actions는 해당 프로젝트를 리눅수 환경에 Checkout하고 나서 실행
+    # 만들어놓은 Action을 사용할 때는 uses라는 키워드 사용
+    - uses: actions/checkout@v2
+
+    # 해당환경을 Node.js 위에서 실행하겠다고 명시
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      # with라는 키워드로 Action에 값을 전달
+      with:
+        node-version: ${{ secrets.NODE_VERSION }}
+
+    # 매번 npm install을 할 필요 없음
+    # 해당프로젝트의 node_modules 변화여부를 통해 npm install Check
+    - name: Cache node modules
+
+      # action 사용
+      uses: actions/cache@v2
+
+      id: cache
+    with:
+      # node_modules라는 폴더 검사
+      path: node_modules
+      # 아래 키값으로 cache 확인
+      key: npm-packages-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Install Dependencies
+      # node_modules에 대한 cache 검사
+      # 모듈에 대한 변화가 있다면 'npm install'을 실행하고 아니면 해당 step을 건너뛴다.
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: npm install
+
+    - run: npm run lint
+      # npm run lint 에러가 발생한다면 뒤의 tsc, build는 실행하지 않고 workflow가 종료 된다.
+      # 하지만 ${{ always() }}라는 문법을 사용한다면 
+      # `npm run lint`라는 곳에서 에러가 나도 뒤의 tsc, build까지 다 실행을 해보고 난 뒤 종료.
+      if: ${{ always() }}
+    - run: npm run tsc
+      if: ${{ always() }}
+    - run: npm run build
+      if: ${{ always() }}
+
+
+
+
+
+
