@@ -9,7 +9,7 @@ on: push
 
 # GitHub Actions에서 작업이란 독립된 가상머신 또는 컨테이너에서 돌아가는 하나의 처리 단위
 jobs: 
-  test: 
+  github-action: 
   # job의 이름
   name: Test lint, test, build
   # job의 환경
