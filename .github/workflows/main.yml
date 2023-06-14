@@ -1,7 +1,7 @@
-# test-every-push.yml
+# main.yml
 
 # workflow의 이름
-name: 'test-every-push'
+name: 'main'
 
 # workflow 동작하게하는 trigger
 # ex) repository에 push 이벤트가 발생할 때마다 실행
